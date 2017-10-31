@@ -1,0 +1,37 @@
+<configuration>
+  <property name="default" value="%d{HH:mm:ss.SSS} %-5level %logger{10} %msg%n"></property>
+  <property name="ptn1" value="%d{HH:mm:ss.SSS} %-5level %logger{30} [ptn1] [%thread] %msg%n"></property>
+  <property name="logDir" value="logs/" />
+  <property name="fileName" value="App" />
+  <property name="fileExtension" value=".log" />
+  <property name="rollingPtn" value=".%d{yyyy-MM-dd}.%i"></property>
+  <property name="maxFileSize" value="500"></property>
+  <property name="maxHistory" value="30"></property>
+
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>${ptn1}</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${logDir}${fileName}${fileExtension}</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${logDir}${fileName}${rollingPtn}${fileExtension}</fileNamePattern>
+      <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+        <maxFileSize>${maxFileSize}</maxFileSize>
+      </timeBasedFileNamingAndTriggeringPolicy>
+      <maxHistory>${maxHistory}</maxHistory>
+    </rollingPolicy>
+    <encoder>
+      <pattern>${ptn1}</pattern>
+    </encoder>
+  </appender>
+
+  <logger name="LOG_FILE" level="DEBUG" additivity="false">
+    <appender-ref ref="FILE" />
+  </logger>
+  <logger name="LOG_CONSOLE" level="DEBUG" additivity="false">
+    <appender-ref ref="CONSOLE" />
+  </logger>
+</configuration>
